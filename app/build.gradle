@@ -1,10 +1,9 @@
 plugins {
-    id("kotlin-kapt")
+    id 'kotlin-kapt'
     id 'com.android.application'
-    id 'kotlin-android-extensions'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
-    id("com.google.dagger.hilt.android")
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -96,9 +95,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation 'androidx.window:window:1.0.0'
-    implementation 'androidx.window:window-core:+'
-    implementation 'androidx.room:room-common:2.5.1'
-    implementation 'androidx.room:room-ktx:2.5.1'
+    implementation 'androidx.window:window-core:1.1.0-beta02'
+    def room = "2.5.1"
+    implementation "androidx.room:room-runtime:$room"
+    implementation "androidx.room:room-ktx:$room"
+    kapt "androidx.room:room-compiler:$room"
     kapt("com.google.dagger:hilt-android-compiler:2.44.2")
 
     implementation 'org.tensorflow:tensorflow-lite:2.9.0'

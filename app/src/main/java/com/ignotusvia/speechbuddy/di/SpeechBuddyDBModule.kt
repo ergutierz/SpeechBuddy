@@ -16,7 +16,7 @@ class SpeechBuddyDBModule {
 
     @Provides
     @Singleton
-    fun providesCartRoomDatabase(
+    fun providesSpeechBuddyRoomDatabase(
         @ApplicationContext context: Context
     ): SpeechBuddyDB {
         return Room.databaseBuilder(

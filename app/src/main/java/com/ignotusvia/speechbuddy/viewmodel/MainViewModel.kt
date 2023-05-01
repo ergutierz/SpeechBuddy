@@ -8,7 +8,7 @@ import com.ignotusvia.speechbuddy.core.SpeechRecognitionHelper
 import com.ignotusvia.speechbuddy.core.StateFlowModelStore
 import com.ignotusvia.speechbuddy.core.TFLiteManager
 import com.ignotusvia.speechbuddy.core.TTSHelper
-import com.ignotusvia.speechbuddy.db.ChildSession
+import com.ignotusvia.speechbuddy.db.ChildSessionEntity
 import com.ignotusvia.speechbuddy.db.SpeechBuddyDB
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -117,8 +117,8 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun saveChildSession(recognizedSpeech: String, improvementSuggestion: String) {
-        val childSession = ChildSession(0, System.currentTimeMillis(), recognizedSpeech, improvementSuggestion)
-        speechBuddyDB.childSessionDao().insert(childSession)
+        val childSessionEntity = ChildSessionEntity(0, System.currentTimeMillis(), recognizedSpeech, improvementSuggestion)
+        speechBuddyDB.childSessionDao().insert(childSessionEntity)
     }
 
     private suspend fun analyzeChildSessions() {
@@ -126,7 +126,7 @@ class MainViewModel @Inject constructor(
 
         val patternsMap = mutableMapOf<String, MutableList<String>>()
 
-        // Loop through each ChildSession and extract the recognized speech and improvement suggestion
+        // Loop through each ChildSessionEntity and extract the recognized speech and improvement suggestion
         for (childSession in childSessions) {
             val recognizedSpeech = childSession.recognizedSpeech
             val improvementSuggestion = childSession.improvementSuggestion
@@ -230,7 +230,7 @@ class MainViewModel @Inject constructor(
         val suggestion: String? = null,
         val recommendations: List<String> = emptyList(),
         val error: Throwable? = null,
-        val sessionData: List<ChildSession>? = null
+        val sessionData: List<ChildSessionEntity>? = null
     )
 
     sealed class Action {
