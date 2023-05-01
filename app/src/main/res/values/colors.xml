@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red_100">#ffdfe0</color>
+    <color name="red_200">#febfc1</color>
+    <color name="red_300">#f88185</color>
+    <color name="red_400">#ec4c53</color>
+    <color name="red_500">#db232d</color>
+    <color name="red_600">#bf0b13</color>
+    <color name="red_700">#9a0006</color>
+    <color name="red_800">#6c0003</color>
+    <color name="red_900">#370001</color>
+
+    <color name="yellow_100">#fff7dd</color>
+    <color name="yellow_200">#fff1b9</color>
+    <color name="yellow_300">#ffe075</color>
+    <color name="yellow_400">#fdd13a</color>
+    <color name="yellow_500">#e6b317</color>
+    <color name="yellow_600">#c79302</color>
+    <color name="yellow_700">#a07300</color>
+    <color name="yellow_800">#704f00</color>
+    <color name="yellow_900">#392700</color>
+
+    <color name="green_100">#e3f2e0</color>
+    <color name="green_200">#cfedc9</color>
+    <color name="green_300">#a5e296</color>
+    <color name="green_400">#80d36c</color>
+    <color name="green_500">#63bd4c</color>
+    <color name="green_600">#4ba134</color>
+    <color name="green_700">#2e8318</color>
+    <color name="green_800">#1a5d0a</color>
+    <color name="green_900">#0b2f03</color>
+
+    <color name="cyan_100">#e3fbff</color>
+    <color name="cyan_200">#c8f5ff</color>
+    <color name="cyan_300">#8de3fd</color>
+    <color name="cyan_400">#5accf3</color>
+    <color name="cyan_500">#32b2e4</color>
+    <color name="cyan_600">#1598c6</color>
+    <color name="cyan_700">#037a9f</color>
+    <color name="cyan_800">#005870</color>
+    <color name="cyan_900">#002e39</color>
+
+    <color name="blue_100">#d1def4</color>
+    <color name="blue_200">#a6c2e9</color>
+    <color name="blue_300">#659ad7</color>
+    <color name="blue_400">#307ac1</color>
+    <color name="blue_500">#0c60a5</color>
+    <color name="blue_600">#004b93</color>
+    <color name="blue_700">#003879</color>
+    <color name="blue_800">#002456</color>
+    <color name="blue_900">#00112c</color>
+
+    <color name="brown_100">#964b00</color>
+
+    <color name="gray_100">#f5f9fb</color>
+    <color name="gray_200">#e8f0f4</color>
+    <color name="gray_300">#d8e3e9</color>
+    <color name="gray_400">#c6d3d9</color>
+    <color name="gray_500">#b1bec5</color>
+    <color name="gray_600">#97a3aa</color>
+    <color name="gray_700">#778287</color>
+    <color name="gray_800">#525a5e</color>
+    <color name="gray_900">#2a2e30</color>
+
+    <color name="gray_01">#464852</color>
+    <color name="gray_02">#5a6871</color>
+    <color name="gray_03">#8697a2</color>
+    <color name="gray_04">#aabcce</color>
+    <color name="gray_04_disabled_alpha">#44aabcce</color>
+    <color name="gray_05">#e1e7eb</color>
+    <color name="gray_06">#f4f7fb</color>
+
+    <color name="orange_500">#da680f</color>
+    <color name="purple_500">#5b0a91</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="black_30_percent">#4D000000</color>
+
+    <color name="transparent">#00000000</color>
+</resources>
