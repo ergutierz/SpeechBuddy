@@ -13,8 +13,10 @@ import com.ignotusvia.speechbuddy.view.screen.DashboardScreen
 import com.ignotusvia.speechbuddy.view.screen.GrammarTipsScreen
 import com.ignotusvia.speechbuddy.view.screen.ImmersionFeaturesScreen
 import com.ignotusvia.speechbuddy.view.screen.LearningPathScreen
+import com.ignotusvia.speechbuddy.view.screen.LoginScreen
 import com.ignotusvia.speechbuddy.view.screen.PrivacySettingsScreen
 import com.ignotusvia.speechbuddy.view.screen.ProgressTrackingScreen
+import com.ignotusvia.speechbuddy.view.screen.RegisterScreen
 import com.ignotusvia.speechbuddy.view.screen.SpeechRecognitionScreen
 import com.ignotusvia.speechbuddy.view.screen.VocabularyExercisesScreen
 
@@ -26,8 +28,10 @@ fun ApplicationNavigationComponent(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.DashboardScreen.route
+        startDestination = Screen.LoginScreen.route
     ) {
+        composable(Screen.LoginScreen.route) { LoginScreen() }
+        composable(Screen.RegisterScreen.route) { RegisterScreen() }
         composable(Screen.DashboardScreen.route) { DashboardScreen() }
         composable(Screen.SpeechRecognitionScreen.route) { SpeechRecognitionScreen() }
         composable(Screen.ConversationScreen.route) { ConversationScreen() }

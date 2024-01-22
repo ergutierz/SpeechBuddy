@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "722195424931",
+    "project_id": "speechbuddy-ae923",
+    "storage_bucket": "speechbuddy-ae923.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722195424931:android:4b5171ee44a454865e4116",
+        "android_client_info": {
+          "package_name": "com.ignotusvia.speechbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1tCYlYBlw-LpfontSbMfT_3F9aYO6YAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

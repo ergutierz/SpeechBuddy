@@ -1,15 +1,37 @@
 package com.ignotusvia.speechbuddy.core
 
 sealed class Screen(val route: String) {
-    object SpeechRecognitionScreen : Screen("speech_recognition_screen")
-    object ConversationScreen : Screen("conversation_screen")
-    object LearningPathScreen : Screen("learning_path_screen")
-    object VocabularyExercisesScreen : Screen("vocabulary_exercises_screen")
-    object GrammarTipsScreen : Screen("grammar_tips_screen")
-    object ImmersionFeaturesScreen : Screen("immersion_features_screen")
-    object ProgressTrackingScreen : Screen("progress_tracking_screen")
-    object CommunityScreen : Screen("community_screen")
-    object AccessibilitySettingsScreen : Screen("accessibility_settings_screen")
-    object PrivacySettingsScreen : Screen("privacy_settings_screen")
-    object DashboardScreen : Screen("dashboard_screen")
+    data object SpeechRecognitionScreen : Screen("speech_recognition_screen")
+    data object ConversationScreen : Screen("conversation_screen")
+    data object LearningPathScreen : Screen("learning_path_screen")
+    data object VocabularyExercisesScreen : Screen("vocabulary_exercises_screen")
+    data object GrammarTipsScreen : Screen("grammar_tips_screen")
+    data object ImmersionFeaturesScreen : Screen("immersion_features_screen")
+    data object ProgressTrackingScreen : Screen("progress_tracking_screen")
+    data object CommunityScreen : Screen("community_screen")
+    data object AccessibilitySettingsScreen : Screen("accessibility_settings_screen")
+    data object PrivacySettingsScreen : Screen("privacy_settings_screen")
+    data object DashboardScreen : Screen("dashboard_screen")
+    data object LoginScreen : Screen("login_screen")
+    data object RegisterScreen : Screen("register_screen")
+
+    companion object {
+        fun getScreenTitle(route: String?): String {
+            return when (route) {
+                SpeechRecognitionScreen.route -> "Speech Recognition"
+                ConversationScreen.route -> "Interactive Conversations"
+                LearningPathScreen.route -> "Learning Path"
+                VocabularyExercisesScreen.route -> "Vocabulary Exercises"
+                GrammarTipsScreen.route -> "Grammar Tips"
+                ImmersionFeaturesScreen.route -> "Language Immersion"
+                ProgressTrackingScreen.route -> "Progress Tracking"
+                CommunityScreen.route -> "Community"
+                AccessibilitySettingsScreen.route -> "Accessibility Settings"
+                PrivacySettingsScreen.route -> "Privacy and Security"
+                RegisterScreen.route -> "Register"
+                LoginScreen.route -> "Login"
+                else -> "Speech Buddy"
+            }
+        }
+    }
 }

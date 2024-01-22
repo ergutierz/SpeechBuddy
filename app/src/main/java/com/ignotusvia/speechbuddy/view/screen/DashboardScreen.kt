@@ -1,5 +1,7 @@
 package com.ignotusvia.speechbuddy.view.screen
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -7,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ignotusvia.speechbuddy.viewmodel.DashboardViewModel
@@ -15,8 +18,13 @@ import com.ignotusvia.speechbuddy.viewmodel.DashboardViewModel
 fun DashboardScreen() {
     val viewModel: DashboardViewModel = hiltViewModel()
     var progress by remember { mutableStateOf(50) } // Example progress state
-
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    val context = LocalContext.current
+    BackHandler {
+        (context as? Activity)?.finish()
+    }
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
         Text(
             text = "Dashboard",
             style = MaterialTheme.typography.h5,
@@ -39,8 +47,12 @@ fun DashboardScreen() {
         // Quick Access to Main Features
         LazyRow {
             item {
-                QuickAccessItem("Speech Recognition", onClick = { /* Navigate to Speech Recognition */ })
-                QuickAccessItem("Vocabulary Exercises", onClick = { /* Navigate to Vocabulary Exercises */ })
+                QuickAccessItem(
+                    "Speech Recognition",
+                    onClick = { /* Navigate to Speech Recognition */ })
+                QuickAccessItem(
+                    "Vocabulary Exercises",
+                    onClick = { /* Navigate to Vocabulary Exercises */ })
                 QuickAccessItem("Grammar Tips", onClick = { /* Navigate to Grammar Tips */ })
                 // Add more items as needed
             }
