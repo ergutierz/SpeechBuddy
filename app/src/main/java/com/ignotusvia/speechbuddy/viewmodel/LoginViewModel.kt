@@ -74,7 +74,7 @@ class LoginViewModel @Inject constructor(
         authRepository.login(email, password) { firebaseUser: FirebaseUser?, exception: Exception? ->
             if (exception == null && firebaseUser != null) {
                 // login success
-                timeoutManager.start()
+//                timeoutManager.startService()
                 navigateToDashboard()
             } else {
                 viewModelScope.launch {
