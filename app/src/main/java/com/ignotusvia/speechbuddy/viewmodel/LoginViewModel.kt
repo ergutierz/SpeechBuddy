@@ -7,7 +7,6 @@ import com.ignotusvia.speechbuddy.core.ConsumableEvent
 import com.ignotusvia.speechbuddy.core.ModelStore
 import com.ignotusvia.speechbuddy.core.StateFlowModelStore
 import com.ignotusvia.speechbuddy.core.navigation.NavigationCommandManager
-import com.ignotusvia.speechbuddy.manager.TimeoutManager
 import com.ignotusvia.speechbuddy.remote.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,7 +19,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthenticationRepository,
     private val navigationCommandManager: NavigationCommandManager,
-    private val timeoutManager: TimeoutManager
 ) : ViewModel() {
 
     private val _modelStore: ModelStore<ViewState> =
@@ -73,8 +71,6 @@ class LoginViewModel @Inject constructor(
         val password = _modelStore.value.password
         authRepository.login(email, password) { firebaseUser: FirebaseUser?, exception: Exception? ->
             if (exception == null && firebaseUser != null) {
-                // login success
-//                timeoutManager.startService()
                 navigateToDashboard()
             } else {
                 viewModelScope.launch {
