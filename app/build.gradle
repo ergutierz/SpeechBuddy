@@ -48,6 +48,8 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/INDEX.LIST'
         }
     }
     androidResources {
@@ -131,4 +133,10 @@ dependencies {
     // BoM for the Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-auth")
+
+    implementation 'com.google.cloud:google-cloud-speech:1.29.1'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:0.26.0'
+    implementation 'io.grpc:grpc-okhttp:1.38.1'
+    implementation 'io.grpc:grpc-stub:1.38.1'
+    implementation 'com.google.api:gax:1.58.0'
 }
