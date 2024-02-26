@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class SpeechRecognitionViewModel @Inject constructor(
+class SpeechTranslationViewModel @Inject constructor(
     private val voiceRecorderManager: VoiceRecorderManager
 ) : ViewModel() {
 

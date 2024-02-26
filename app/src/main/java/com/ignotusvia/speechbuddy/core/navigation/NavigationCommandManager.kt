@@ -1,10 +1,7 @@
 package com.ignotusvia.speechbuddy.core.navigation
 
 import androidx.navigation.NamedNavArgument
-import com.ignotusvia.speechbuddy.core.ModelStore
-import com.ignotusvia.speechbuddy.core.Reducer
 import com.ignotusvia.speechbuddy.core.Screen
-import com.ignotusvia.speechbuddy.core.StateFlowModelStore
 import com.ignotusvia.speechbuddy.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -63,7 +60,7 @@ class NavigationCommandManager @Inject constructor(
             override val arguments: List<NamedNavArgument>
                 get() = emptyList()
             override val destination: String
-                get() = Screen.SpeechRecognitionScreen.route
+                get() = Screen.SpeechTranslationScreen.route
         }
 
         val conversationDirection = object : NavigationCommand {

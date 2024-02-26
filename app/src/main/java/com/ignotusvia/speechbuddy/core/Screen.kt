@@ -1,7 +1,7 @@
 package com.ignotusvia.speechbuddy.core
 
 sealed class Screen(val route: String) {
-    data object SpeechRecognitionScreen : Screen("speech_recognition_screen")
+    data object SpeechTranslationScreen : Screen("speech_translation_screen")
     data object ConversationScreen : Screen("conversation_screen")
     data object LearningPathScreen : Screen("learning_path_screen")
     data object VocabularyExercisesScreen : Screen("vocabulary_exercises_screen")
@@ -18,7 +18,7 @@ sealed class Screen(val route: String) {
     companion object {
         fun getScreenTitle(route: String?): String {
             return when (route) {
-                SpeechRecognitionScreen.route -> "Speech Recognition"
+                SpeechTranslationScreen.route -> "Speech Translation"
                 ConversationScreen.route -> "Interactive Conversations"
                 LearningPathScreen.route -> "Learning Path"
                 VocabularyExercisesScreen.route -> "Vocabulary Exercises"

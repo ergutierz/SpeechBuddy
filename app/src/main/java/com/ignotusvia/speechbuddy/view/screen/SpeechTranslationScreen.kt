@@ -26,12 +26,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import com.ignotusvia.speechbuddy.core.VoiceRecorderManager
-import com.ignotusvia.speechbuddy.viewmodel.SpeechRecognitionViewModel
+import com.ignotusvia.speechbuddy.viewmodel.SpeechTranslationViewModel
 
 @Composable
-fun SpeechRecognitionScreen() {
-    val viewModel: SpeechRecognitionViewModel = hiltViewModel()
+fun SpeechTranslationScreen() {
+    val viewModel: SpeechTranslationViewModel = hiltViewModel()
     val viewState by viewModel.voiceState.collectAsState()
     val context = LocalContext.current
     var isGranted by remember { mutableStateOf(false) }
@@ -77,7 +79,6 @@ fun MainContent(
 ) {
     var isRecording by remember { mutableStateOf(false) }
     var recognizedText by remember { mutableStateOf(TextFieldValue("")) }
-    var analysisResult by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -134,14 +135,43 @@ fun MainContent(
         Divider()
 
         Text(
-            text = "Analysis",
+            text = "Translation",
             style = MaterialTheme.typography.h6,
             modifier = Modifier.align(Alignment.Start)
         )
 
         Text(
-            text = viewState.analysis.orEmpty(),
+            text = viewState.translatedText.orEmpty(),
             style = MaterialTheme.typography.body1
         )
+
+        Divider()
+
+        viewState.translatedAudioFilePath?.let { filePath ->
+            AudioPlayer(filePath)
+        }
+    }
+}
+
+@Composable
+fun AudioPlayer(filePath: String) {
+    val context = LocalContext.current
+    var isPlaying by remember { mutableStateOf(false) }
+    val player = remember { ExoPlayer.Builder(context).build() }
+
+    LaunchedEffect(filePath) {
+        player.setMediaItem(MediaItem.fromUri(filePath))
+        player.prepare()
+    }
+
+    Button(onClick = {
+        isPlaying = !isPlaying
+        if (isPlaying) {
+            player.play()
+        } else {
+            player.pause()
+        }
+    }) {
+        Text(if (isPlaying) "Stop" else "Play")
     }
 }

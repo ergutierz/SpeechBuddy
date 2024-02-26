@@ -34,6 +34,7 @@ import com.ignotusvia.speechbuddy.viewmodel.LoginViewModel
 fun LoginScreen() {
     val viewModel: LoginViewModel = hiltViewModel()
     val viewState: LoginViewModel.ViewState by viewModel.viewState.collectAsState()
+    viewModel.onAction(LoginViewModel.Action.Login)
     Column(
         modifier = Modifier
             .fillMaxSize()

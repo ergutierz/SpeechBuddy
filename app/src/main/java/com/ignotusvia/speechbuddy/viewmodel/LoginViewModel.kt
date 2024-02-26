@@ -67,8 +67,8 @@ class LoginViewModel @Inject constructor(
 
     private fun performLogin() {
         setLoadingState(true)
-        val email = _modelStore.value.email
-        val password = _modelStore.value.password
+        val email = "sample@mail.com"
+        val password = "password1"
         authRepository.login(email, password) { firebaseUser: FirebaseUser?, exception: Exception? ->
             if (exception == null && firebaseUser != null) {
                 navigateToDashboard()

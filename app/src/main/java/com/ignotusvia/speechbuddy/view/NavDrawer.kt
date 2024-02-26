@@ -28,7 +28,7 @@ fun NavDrawer(
         Divider()
 
         // List of navigation items
-        DrawerItem("Speech Recognition", Screen.SpeechRecognitionScreen.route, navController, scaffoldState)
+        DrawerItem("Speech Translation", Screen.SpeechTranslationScreen.route, navController, scaffoldState)
         DrawerItem("Interactive Conversations", Screen.ConversationScreen.route, navController, scaffoldState)
         DrawerItem("Learning Path", Screen.LearningPathScreen.route, navController, scaffoldState)
         DrawerItem("Vocabulary Exercises", Screen.VocabularyExercisesScreen.route, navController, scaffoldState)

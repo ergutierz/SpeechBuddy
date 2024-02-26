@@ -13,24 +13,35 @@ import com.google.cloud.speech.v1.SpeechRecognitionResult
 import com.google.cloud.speech.v1.SpeechSettings
 import com.google.protobuf.ByteString
 import com.ignotusvia.speechbuddy.R
+import com.ignotusvia.speechbuddy.di.ApplicationScope
+import com.ignotusvia.speechbuddy.di.Dispatcher
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class VoiceRecorderManager @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
+    @ApplicationScope applicationScope: CoroutineScope,
+    @Dispatcher.IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @ApplicationContext private val context: Context,
+    private val translationManager: TranslationManager
+) : CoroutineScope by applicationScope {
+
     private var voiceRecorder: VoiceRecorder? = null
     private var speechClient: SpeechClient? = null
     private var byteArray: ByteArray = byteArrayOf()
+    private val fileName = "translated_audio.mp3"
+    private val file get() = File(context.filesDir, fileName)
+    private val filePath get() = file.absolutePath
     private val _voiceState = MutableStateFlow<RecordingState>(RecordingState())
     val voiceState: StateFlow<RecordingState> = _voiceState.asStateFlow()
 
@@ -77,14 +88,34 @@ class VoiceRecorderManager @Inject constructor(
     }
 
     private fun transcribeRecording(data: ByteArray) {
-        GlobalScope.launch(Dispatchers.IO) {
+        launch(ioDispatcher) {
             val response = speechClient?.recognize(createRecognizeRequestFromVoice(data))
             val results = response?.resultsList
             if (results != null) {
+                val transcription = processTranscriptionResults(results)
                 _voiceState.update { oldState ->
-                    oldState.copy(transcription = processTranscriptionResults(results))
+                    oldState.copy(transcription = transcription)
                 }
+                translateTranscription(transcription)
             }
+        }
+    }
+
+    private suspend fun translateTranscription(transcription: String) {
+        translationManager.translateText(
+            text = transcription,
+            sourceLanguage = "en",
+            targetLanguage = "es",
+            onResult = { translatedText ->
+                _voiceState.update { oldState -> oldState.copy(translatedText = translatedText) }
+            },
+            onError = { exception ->
+                Log.d("VoiceRecorderManager", "Error translating text: $exception")
+                _voiceState.update { oldState -> oldState.copy(translatedText = exception.message) }
+            }
+        )
+        withContext(ioDispatcher) {
+            translationManager.generateTranslationAudio(transcription, "es", filePath)
         }
     }
 
@@ -116,6 +147,7 @@ class VoiceRecorderManager @Inject constructor(
         val data: ByteArray? = null,
         val size: Int = 0,
         val transcription: String? = null,
-        val analysis: String? = null
+        val translatedText: String? = null,
+        val translatedAudioFilePath: String? = null
     )
 }
