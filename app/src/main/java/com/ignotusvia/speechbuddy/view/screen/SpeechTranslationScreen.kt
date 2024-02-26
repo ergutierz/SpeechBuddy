@@ -78,7 +78,6 @@ fun MainContent(
     viewState: VoiceRecorderManager.RecordingState
 ) {
     var isRecording by remember { mutableStateOf(false) }
-    var recognizedText by remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
         modifier = Modifier
@@ -86,20 +85,7 @@ fun MainContent(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Speech Recognition",
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.align(Alignment.Start)
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-
-        BasicTextField(
-            value = recognizedText,
-            onValueChange = { recognizedText = it },
-            readOnly = true
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(60.dp))
 
         Button(
             onClick = {
@@ -147,7 +133,7 @@ fun MainContent(
 
         Divider()
 
-        viewState.translatedAudioFilePath?.let { filePath ->
+        viewState.translatedAudioFileUri?.let { filePath ->
             AudioPlayer(filePath)
         }
     }

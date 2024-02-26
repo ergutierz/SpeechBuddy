@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,17 +38,15 @@ class VoiceRecorderManager @Inject constructor(
     private var voiceRecorder: VoiceRecorder? = null
     private var speechClient: SpeechClient? = null
     private var byteArray: ByteArray = byteArrayOf()
-    private val fileName = "translated_audio.mp3"
-    private val file get() = File(context.filesDir, fileName)
-    private val filePath get() = file.absolutePath
     private val _voiceState = MutableStateFlow<RecordingState>(RecordingState())
-    val voiceState: StateFlow<RecordingState> = _voiceState.asStateFlow()
+    val voiceState: StateFlow<RecordingState> get() = _voiceState.asStateFlow()
 
     init {
         initializeSpeechClient()
     }
 
     fun startRecording() {
+        byteArray = byteArrayOf()
         voiceRecorder = VoiceRecorder(object : VoiceRecorder.Callback() {
             override fun onVoiceStart() {
                 Log.d("VoiceRecorderManager", "onVoiceStart")
@@ -101,21 +98,30 @@ class VoiceRecorderManager @Inject constructor(
         }
     }
 
-    private suspend fun translateTranscription(transcription: String) {
+    private fun translateTranscription(transcription: String) {
         translationManager.translateText(
             text = transcription,
             sourceLanguage = "en",
             targetLanguage = "es",
             onResult = { translatedText ->
                 _voiceState.update { oldState -> oldState.copy(translatedText = translatedText) }
+                launch(ioDispatcher) {
+                    convertTextToAudio(translatedText)
+                }
             },
             onError = { exception ->
                 Log.d("VoiceRecorderManager", "Error translating text: $exception")
                 _voiceState.update { oldState -> oldState.copy(translatedText = exception.message) }
             }
         )
-        withContext(ioDispatcher) {
-            translationManager.generateTranslationAudio(transcription, "es", filePath)
+    }
+
+    private suspend fun convertTextToAudio(translatedText: String) = withContext(ioDispatcher) {
+        val translatedAudioFileUri = translationManager.generateTranslationAudio(translatedText, "es")
+        _voiceState.update { oldState ->
+            oldState.copy(
+                translatedAudioFileUri = translatedAudioFileUri
+            )
         }
     }
 
@@ -148,6 +154,6 @@ class VoiceRecorderManager @Inject constructor(
         val size: Int = 0,
         val transcription: String? = null,
         val translatedText: String? = null,
-        val translatedAudioFilePath: String? = null
+        val translatedAudioFileUri: String? = null
     )
 }

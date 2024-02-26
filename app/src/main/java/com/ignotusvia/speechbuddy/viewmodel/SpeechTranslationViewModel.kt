@@ -11,7 +11,7 @@ class SpeechTranslationViewModel @Inject constructor(
     private val voiceRecorderManager: VoiceRecorderManager
 ) : ViewModel() {
 
-    val voiceState: StateFlow<VoiceRecorderManager.RecordingState> = voiceRecorderManager.voiceState
+    val voiceState: StateFlow<VoiceRecorderManager.RecordingState> get() = voiceRecorderManager.voiceState
 
     fun startRecording() {
         voiceRecorderManager.startRecording()
