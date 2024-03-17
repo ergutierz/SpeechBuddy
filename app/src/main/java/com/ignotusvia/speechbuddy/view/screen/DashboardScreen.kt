@@ -17,7 +17,7 @@ import com.ignotusvia.speechbuddy.viewmodel.DashboardViewModel
 @Composable
 fun DashboardScreen() {
     val viewModel: DashboardViewModel = hiltViewModel()
-    var progress by remember { mutableStateOf(50) } // Example progress state
+    var progress by remember { mutableStateOf(50) }
     val context = LocalContext.current
     BackHandler {
         (context as? Activity)?.finish()
@@ -25,11 +25,7 @@ fun DashboardScreen() {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)) {
-        Text(
-            text = "Dashboard",
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.align(Alignment.Start)
-        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         // Progress Overview

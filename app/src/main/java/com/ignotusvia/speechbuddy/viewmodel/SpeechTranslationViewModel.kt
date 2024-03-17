@@ -33,10 +33,10 @@ class SpeechTranslationViewModel @Inject constructor(
             return flowOf(supportedLanguages.toList().distinct())
         }
 
-    val targetLanguage = MutableStateFlow(Language("es", "Spanish"))
+    val targetLanguage = MutableStateFlow(Language("Spanish", "es"))
 
     fun startRecording() {
-        voiceRecorderManager.startRecording()
+        voiceRecorderManager.startRecording(targetLanguage.value.languageCode)
     }
 
     fun stopRecording() {
@@ -45,5 +45,11 @@ class SpeechTranslationViewModel @Inject constructor(
 
     fun setTargetLanguage(language: Language) {
         targetLanguage.value = language
+        voiceRecorderManager.reset()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        voiceRecorderManager.reset()
     }
 }

@@ -30,6 +30,10 @@ class LoginViewModel @Inject constructor(
                 initialValue = ViewState()
             )
 
+    init {
+        performLogin()
+    }
+
     fun onAction(action: Action) {
         when (action) {
             is Action.Login -> performLogin()
@@ -72,8 +76,8 @@ class LoginViewModel @Inject constructor(
 
     private fun performLogin() {
         setLoadingState(true)
-        val email = _modelStore.value.email
-        val password = _modelStore.value.password
+        val email = "sample@mail.com"//_modelStore.value.email
+        val password = "password1"//_modelStore.value.password
         authRepository.login(email, password) { firebaseUser: FirebaseUser?, exception: Exception? ->
             setLoadingState(false)
             if (exception == null && firebaseUser != null) {

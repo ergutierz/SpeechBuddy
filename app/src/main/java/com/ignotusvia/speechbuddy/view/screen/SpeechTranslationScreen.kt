@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
+import com.ignotusvia.speechbuddy.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,8 +34,13 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ignotusvia.speechbuddy.core.VoiceRecorderManager
 import com.ignotusvia.speechbuddy.model.Language
+import com.ignotusvia.speechbuddy.view.component.LoadingBar
 import com.ignotusvia.speechbuddy.viewmodel.SpeechTranslationViewModel
 
 @Composable
@@ -54,7 +60,11 @@ fun SpeechTranslationScreen() {
     )
 
     LaunchedEffect(key1 = true) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
         } else {
             isGranted = true
@@ -92,7 +102,7 @@ fun MainContent(
     startRecording: () -> Unit,
     stopRecording: () -> Unit,
     setTarget: (Language) -> Unit,
-    viewState: VoiceRecorderManager.RecordingState,
+    voiceState: VoiceRecorderManager.RecordingState,
     availableLocales: List<Language>,
     targetLanguage: Language
 ) {
@@ -143,7 +153,7 @@ fun MainContent(
         )
 
         Text(
-            text = viewState.transcription.orEmpty(),
+            text = voiceState.transcription.orEmpty(),
             style = MaterialTheme.typography.body1
         )
 
@@ -156,17 +166,36 @@ fun MainContent(
         )
 
         Text(
-            text = viewState.translatedText.orEmpty(),
+            text = voiceState.translatedText.orEmpty(),
             style = MaterialTheme.typography.body1
         )
 
         Divider()
 
-        viewState.translatedAudioFileUri?.let { filePath ->
+        voiceState.translatedAudioFileUri?.let { filePath ->
             AudioPlayer(filePath)
         }
+        if (isRecording && voiceState.rmsValue > 0.0f) {
+            AudioResponsiveAnimation(voiceState)
+        }
+    }
+    if (voiceState.isTranscribing) {
+        LoadingBar()
     }
 }
+
+@Composable
+fun AudioResponsiveAnimation(voiceState: VoiceRecorderManager.RecordingState) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.wripple))
+    LottieAnimation(
+        composition = composition,
+        isPlaying = true,
+        speed = voiceState.rmsValue,
+        modifier = Modifier.fillMaxSize(),
+        iterations = LottieConstants.IterateForever
+    )
+}
+
 
 @Composable
 fun LanguageDropdown(
@@ -190,7 +219,7 @@ fun LanguageDropdown(
 
         Row {
             Text(
-                text = "Target: ${targetLanguage.languageCode}",
+                text = "Target: ${targetLanguage.displayName}",
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(vertical = 8.dp)
