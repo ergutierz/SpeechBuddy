@@ -137,13 +137,10 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     // BoM for the Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-storage-ktx")
 
     //AI
-    implementation("com.google.ai.client.generativeai:generativeai:0.2.2")
     implementation 'com.google.cloud:google-cloud-speech:1.29.1'
     implementation 'com.google.auth:google-auth-library-oauth2-http:0.26.0'
     implementation 'io.grpc:grpc-okhttp:1.38.1'
