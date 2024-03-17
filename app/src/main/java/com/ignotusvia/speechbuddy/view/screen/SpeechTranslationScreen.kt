@@ -5,36 +5,45 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.ignotusvia.speechbuddy.core.VoiceRecorderManager
+import com.ignotusvia.speechbuddy.model.Language
 import com.ignotusvia.speechbuddy.viewmodel.SpeechTranslationViewModel
 
 @Composable
 fun SpeechTranslationScreen() {
     val viewModel: SpeechTranslationViewModel = hiltViewModel()
     val viewState by viewModel.voiceState.collectAsState()
+    val availableLocales: List<Language> by viewModel.availableLocales.collectAsState(emptyList())
+    val targetLanguage: Language by viewModel.targetLanguage.collectAsState()
+
     val context = LocalContext.current
     var isGranted by remember { mutableStateOf(false) }
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -55,7 +64,14 @@ fun SpeechTranslationScreen() {
     if (!isGranted) {
         PermissionRequiredUI()
     } else {
-        MainContent(viewModel::startRecording, viewModel::stopRecording, viewState)
+        MainContent(
+            viewModel::startRecording,
+            viewModel::stopRecording,
+            viewModel::setTargetLanguage,
+            viewState,
+            availableLocales,
+            targetLanguage
+        )
     }
 }
 
@@ -75,7 +91,10 @@ fun PermissionRequiredUI() {
 fun MainContent(
     startRecording: () -> Unit,
     stopRecording: () -> Unit,
-    viewState: VoiceRecorderManager.RecordingState
+    setTarget: (Language) -> Unit,
+    viewState: VoiceRecorderManager.RecordingState,
+    availableLocales: List<Language>,
+    targetLanguage: Language
 ) {
     var isRecording by remember { mutableStateOf(false) }
 
@@ -85,6 +104,16 @@ fun MainContent(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.weight(1f))
+            LanguageDropdown(
+                languages = availableLocales,
+                targetLanguage,
+                selectedLanguage = Language("English", "en"),
+                onLanguageSelected = setTarget
+            )
+
+        }
         Spacer(modifier = Modifier.height(60.dp))
 
         Button(
@@ -135,6 +164,60 @@ fun MainContent(
 
         viewState.translatedAudioFileUri?.let { filePath ->
             AudioPlayer(filePath)
+        }
+    }
+}
+
+@Composable
+fun LanguageDropdown(
+    languages: List<Language>,
+    targetLanguage: Language,
+    onLanguageSelected: (Language) -> Unit,
+    selectedLanguage: Language? = null
+) {
+    val expandedState = remember { mutableStateOf(false) }
+
+    Column {
+        // Display selected language or placeholder text
+        val displayText = selectedLanguage?.displayName ?: "Select Language"
+
+        Text(
+            text = "Source: $displayText",
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+        )
+
+        Row {
+            Text(
+                text = "Target: ${targetLanguage.languageCode}",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+            )
+            IconButton(onClick = { expandedState.value = !expandedState.value }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowDropDown,
+                    contentDescription = "Toggle Dropdown"
+                )
+            }
+        }
+
+        DropdownMenu(
+            expanded = expandedState.value,
+            onDismissRequest = { expandedState.value = false }
+        ) {
+            languages.forEach { language ->
+                DropdownMenuItem(
+                    onClick = {
+                        // Call the callback function with the selected language
+                        onLanguageSelected(language)
+                        expandedState.value = false
+                    }
+                ) {
+                    Text(text = language.displayName)
+                }
+            }
         }
     }
 }

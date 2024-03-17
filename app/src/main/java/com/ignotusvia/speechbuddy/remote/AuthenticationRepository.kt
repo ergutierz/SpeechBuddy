@@ -20,4 +20,18 @@ class AuthenticationRepository @Inject constructor(
     fun register(email: String, password: String, onComplete: (FirebaseUser?, Exception?) -> Unit) {
         firebaseAuthenticationManager.signUp(email, password, onComplete)
     }
+
+    fun sendPasswordReset(email: String, onComplete: (Exception?) -> Unit) {
+        try {
+            firebaseAuthenticationManager.sendPasswordReset(email, onComplete)
+        } catch (e: Exception) {
+            onComplete(e)
+        }
+    }
+
+    fun signOut() {
+        firebaseAuthenticationManager.signOut()
+    }
+
+    val getCurrentUser: FirebaseUser? get() = firebaseAuthenticationManager.getCurrentUser
 }

@@ -67,6 +67,15 @@ private fun NavigationIcon(
         }) {
             Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = Color.White)
         }
+        Screen.ForgotPasswordScreen.route, Screen.RegisterScreen.route -> IconButton(onClick = {
+            navController.navigate(Screen.LoginScreen.route) {
+                popUpTo(Screen.LoginScreen.route) {
+                    inclusive = true
+                }
+            }
+        }) {
+            Icon(Icons.Filled.Close, contentDescription = "Close", tint = Color.White)
+        }
         else -> IconButton(onClick = {
             navController.navigate(Screen.DashboardScreen.route) {
                 popUpTo(Screen.DashboardScreen.route) {

@@ -36,7 +36,12 @@ class LoginViewModel @Inject constructor(
             is Action.UpdateEmail -> updateEmail(action.email)
             is Action.UpdatePassword -> updatePassword(action.password)
             is Action.NavigateToRegister -> navigateToRegister()
+            is Action.ForgotPassword -> navigateToForgotPassword()
         }
+    }
+
+    private fun navigateToForgotPassword() {
+        navigationCommandManager.navigate(NavigationCommandManager.forgotPasswordDirection)
     }
 
     private fun updateEmail(email: String) {
@@ -67,16 +72,16 @@ class LoginViewModel @Inject constructor(
 
     private fun performLogin() {
         setLoadingState(true)
-        val email = "sample@mail.com"
-        val password = "password1"
+        val email = _modelStore.value.email
+        val password = _modelStore.value.password
         authRepository.login(email, password) { firebaseUser: FirebaseUser?, exception: Exception? ->
+            setLoadingState(false)
             if (exception == null && firebaseUser != null) {
                 navigateToDashboard()
             } else {
                 viewModelScope.launch {
                     _modelStore.process { oldState ->
                         oldState.copy(
-                            isLoading = false,
                             consumableEvent = ConsumableEvent.create(
                                 Event.Error(exception?.message ?: "Unknown error")
                             )
@@ -109,6 +114,7 @@ class LoginViewModel @Inject constructor(
         data class UpdateEmail(val email: String) : Action
         data class UpdatePassword(val password: String) : Action
         data object NavigateToRegister : Action
+        data object ForgotPassword : Action
         data object Login : Action
     }
 

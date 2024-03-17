@@ -14,6 +14,7 @@ sealed class Screen(val route: String) {
     data object DashboardScreen : Screen("dashboard_screen")
     data object LoginScreen : Screen("login_screen")
     data object RegisterScreen : Screen("register_screen")
+    data object ForgotPasswordScreen : Screen("forgot_password_screen")
 
     companion object {
         fun getScreenTitle(route: String?): String {
@@ -30,6 +31,7 @@ sealed class Screen(val route: String) {
                 PrivacySettingsScreen.route -> "Privacy and Security"
                 RegisterScreen.route -> "Register"
                 LoginScreen.route -> "Login"
+                ForgotPasswordScreen.route -> "Forgot Password"
                 else -> "Speech Buddy"
             }
         }

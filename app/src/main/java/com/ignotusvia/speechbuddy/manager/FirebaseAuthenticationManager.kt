@@ -31,5 +31,20 @@ class FirebaseAuthenticationManager @Inject constructor(
             }
     }
 
+    fun sendPasswordReset(email: String, onComplete: (Exception?) -> Unit) {
+        firebaseAuth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onComplete(null)
+                } else {
+                    onComplete(task.exception)
+                }
+            }
+    }
+
+    fun signOut() {
+        firebaseAuth.signOut()
+    }
+
     val getCurrentUser: FirebaseUser? get() = firebaseAuth.currentUser
 }

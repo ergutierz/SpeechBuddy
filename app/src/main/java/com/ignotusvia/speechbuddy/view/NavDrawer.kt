@@ -38,6 +38,7 @@ fun NavDrawer(
         DrawerItem("Community", Screen.CommunityScreen.route, navController, scaffoldState)
         DrawerItem("Accessibility Settings", Screen.AccessibilitySettingsScreen.route, navController, scaffoldState)
         DrawerItem("Privacy and Security", Screen.PrivacySettingsScreen.route, navController, scaffoldState)
+        DrawerItem("Logout", Screen.LoginScreen.route, navController, scaffoldState)
     }
 }
 
