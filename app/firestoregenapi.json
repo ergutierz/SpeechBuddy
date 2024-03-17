@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "speechbuddy-ae923",
+  "private_key_id": "6a2a2b36fd69bcbdd3589f1a1e60b8dbd3f1d694",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDR3GmI77Gh4jPd\n1TKVgWc0OcPvbFc2561qHNhhwJvDKOqjos6Db4T1ZU6g8BEVb2kkDoles8g2cKPy\neSqFIn7U2aNsBnFFEQ86cqft9tkZ/0VImnFS4mZUubmwi8HKY55BfgMW4jH7KWfk\njOUYwn3RWe83jgw2GVzuc9nn76a1ICq8XbzsUdv5mDZi8Od34NUwa4bRxQPzvsIM\n0vsb+QqjNyt9uuz00yiF6Bad0jDzBfaMbMsk2cFAAMQJ9JmfaKbLrqLs722l1esT\n1rvR6b3IKIXApFuTpJOkBzBgXl7MtBkrvjGVH/CxPZGyHCw0rS8CECacFddkm92c\nSLZ28P9TAgMBAAECggEAZob6gE4qSF6M3GnWRrhrxVYbZZNWoJpbXKYvCMLi1lvd\nFojpv8jx+jm+Sl4+2mwNv/HiJwRKYl5xmnqbzWNm93JEpvgWypllCTcO1/Fra4oN\nPUVG7ClzuRzrnVcKHGjC3lhEBiAILx6xhTVYj9olQexgNJIPYTbO8ihjYy7wETh9\nWEnjzyeLWt/ySIPVFOosRYRq7o6GcF5wrk4YrGf3u7vg2rACJY94EVF7GBbtGHMN\naZl4AbK+nZESKdqC09+O2Km8E2Y5ZEASCsEIPJS+foiI+IYT1504ZTnIVHeVWvdn\nNiFdUxzLCDpWuU5zfmY5CDyETwFMUd2Ryhibq2VRAQKBgQDuJvl4qaqGCpgOTMyi\nn3yChE9jZBBr9ST2wrIdBx+lpkxUDpbEaQMU1UD618YAwGeaHXUmzcXH/+VE3Qqb\n176e/SfPlexIt56bVMFJL0BiWBd6J993XEKjRzZNnzzFIGhXbBl1PDU0q7FMaDEn\nzvRlXXhV1BKTjygENPf4lEEqkwKBgQDhlqk8LTLqxkbwg5lj6OqjTSpyXkthhaNE\ntAvtbcUh/O+65tO3ioleHzPDF0ghCxJYTXWK0z3+2EOrGGh9n/zHN6GCNV1kI6Fc\njHKafPJpVvftacuOifvN5fxBxV6bfdobelV5AWGYLXuFPVb3T1YxEa/xDhKOylLc\nz/UVStQQQQKBgQCVtwq+QGtjOOW+l6lN0tWDd4oxAYcRV1uVhXBTr1bF3HW/oixF\n7X5yal4fU+a2Mj7vM/WiH1pnEQgg8pToxAiiCqQsbCPO0yBypiWczIe9S4P213o0\nn1uFKg+JXMHnaygtTVfzy5XnNsiPMDE2xXP/BXPRATFscmLFwkbhjtIo4QKBgQDd\n1GZUi2m/XfySNAZZLcfVj2MHFdxwaJZVT+tOrZulQXGHy8YzfSJ5kJs446MFAzsl\n4/2K5xDWkllwXM8bgYBzciv6u3k7qKHbPSzQ578EgQXJyzfk0aDwJpD5KBlRM9+P\nF6wHEqmimE8XhWsIRFbQZ8EofJsZGLGE+2XYaz2/QQKBgDctup8kTOGMi2e16VCH\nPCga9OuQwh02OgM4276Nky6a2tcpId40GkSH3x33ZBflVp6APj8D4FjOIsb93Dan\n08BJewmUy0f4KCTGwu/KoUXsasnz4eD04dcMzGq+jxbJyfJkCZoLdF7lCp/DI7iw\ni0jIfgerjdmiZC+6HHbjVFmo\n-----END PRIVATE KEY-----\n",
+  "client_email": "ext-firestore-genai-chatbot@speechbuddy-ae923.iam.gserviceaccount.com",
+  "client_id": "108973618237239432313",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ext-firestore-genai-chatbot%40speechbuddy-ae923.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
