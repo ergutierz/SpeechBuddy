@@ -27,17 +27,12 @@ fun NavDrawer(
         Text(text = "Speech Buddy", style = MaterialTheme.typography.h5, modifier = Modifier.padding(16.dp))
         Divider()
 
-        // List of navigation items
         DrawerItem("Speech Translation", Screen.SpeechTranslationScreen.route, navController, scaffoldState)
-        DrawerItem("Interactive Conversations", Screen.ConversationScreen.route, navController, scaffoldState)
         DrawerItem("Learning Path", Screen.LearningPathScreen.route, navController, scaffoldState)
         DrawerItem("Vocabulary Exercises", Screen.VocabularyExercisesScreen.route, navController, scaffoldState)
         DrawerItem("Grammar Tips", Screen.GrammarTipsScreen.route, navController, scaffoldState)
         DrawerItem("Language Immersion", Screen.ImmersionFeaturesScreen.route, navController, scaffoldState)
         DrawerItem("Progress Tracking", Screen.ProgressTrackingScreen.route, navController, scaffoldState)
-        DrawerItem("Community", Screen.CommunityScreen.route, navController, scaffoldState)
-        DrawerItem("Accessibility Settings", Screen.AccessibilitySettingsScreen.route, navController, scaffoldState)
-        DrawerItem("Privacy and Security", Screen.PrivacySettingsScreen.route, navController, scaffoldState)
         DrawerItem("Logout", Screen.LoginScreen.route, navController, scaffoldState)
     }
 }

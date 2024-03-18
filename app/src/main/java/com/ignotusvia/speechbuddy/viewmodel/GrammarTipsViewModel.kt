@@ -7,10 +7,14 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
+import com.ignotusvia.speechbuddy.model.GrammarData
+import com.ignotusvia.speechbuddy.model.GrammarSession
+import com.ignotusvia.speechbuddy.model.GrammarTranslation
 import com.ignotusvia.speechbuddy.model.Language
 import com.ignotusvia.speechbuddy.model.LanguageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -20,28 +24,42 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 @HiltViewModel
 class GrammarTipsViewModel @Inject constructor(@ApplicationContext private val context: Context) : ViewModel() {
     private val _grammarData = MutableStateFlow(GrammarData(emptyList(), emptyList(), emptyList()))
-    val grammarData: StateFlow<GrammarData> = _grammarData
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val grammarData: Flow<List<GrammarSession>> = _grammarData.flatMapLatest {
+        flowOf(
+            listOf(
+                GrammarSession("Nouns", GrammarTranslation(englishWords.nouns, it.nouns)),
+                GrammarSession("Verbs", GrammarTranslation(englishWords.verbs, it.verbs)),
+                GrammarSession("Adjectives", GrammarTranslation(englishWords.adjectives, it.adjectives))
+            )
+        )
+    }
+
+
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    val targetLanguage = MutableStateFlow(LanguageType.ENGLISH)  // Default language
+    val targetLanguage = MutableStateFlow(Language("English", "en"))
     private var englishWords = GrammarData(emptyList(), emptyList(), emptyList())
 
     val availableLocales: Flow<List<Language>>
@@ -68,10 +86,14 @@ class GrammarTipsViewModel @Inject constructor(@ApplicationContext private val c
         viewModelScope.launch {
             targetLanguage.collectLatest { language ->
                 if (englishWords.nouns.isNotEmpty()) {
-                    translateGrammarData(language)
+                    translateGrammarData(language.languageCode)
                 }
             }
         }
+    }
+
+    fun setTargetLanguage(language: Language) {
+        targetLanguage.value = language
     }
 
     private fun loadGrammarData() {
@@ -93,11 +115,14 @@ class GrammarTipsViewModel @Inject constructor(@ApplicationContext private val c
         return jsonObject["words"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList()
     }
 
-    private suspend fun translateGrammarData(language: LanguageType) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun translateGrammarData(languageCode: String) {
         viewModelScope.launch {
             _isLoading.value = true
-            val translations = translateWords(englishWords.flatten(), language.code)
-            val (translatedNouns, translatedVerbs, translatedAdjectives) = translations.divideByCategory(englishWords)
+            val translations = async { translateWords(englishWords.flatten(), languageCode) }
+            translations.await()
+            val completedTranslations = translations.getCompleted()
+            val (translatedNouns, translatedVerbs, translatedAdjectives) = completedTranslations.divideByCategory(englishWords)
 
             _grammarData.value = GrammarData(
                 nouns = translatedNouns,
@@ -109,25 +134,28 @@ class GrammarTipsViewModel @Inject constructor(@ApplicationContext private val c
     }
 
     private suspend fun translateWords(words: List<String>, targetLanguage: String): List<String> {
-        val translatorOptions = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.ENGLISH)
-            .setTargetLanguage(targetLanguage)
-            .build()
-        val englishTranslator = Translation.getClient(translatorOptions)
-
-        return words.map { word ->
-            translateWord(englishTranslator, word)
+        return withContext(Dispatchers.IO) {
+            words.map { word ->
+                translateWord(word, targetLanguage)
+            }
         }
     }
 
-    private suspend fun translateWord(translator: Translator, word: String): String = suspendCancellableCoroutine { continuation ->
-        translator.translate(word)
-            .addOnSuccessListener { translatedText ->
-                continuation.resume(translatedText)
-            }
-            .addOnFailureListener { exception ->
-                continuation.resumeWithException(exception)
-            }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun translateWord(word: String, targetLanguage: String): String = coroutineScope {
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.ENGLISH)
+            .setTargetLanguage(targetLanguage)
+            .build()
+        val translator = Translation.getClient(options)
+
+        suspendCancellableCoroutine { continuation ->
+            translator.downloadModelIfNeeded().addOnSuccessListener {
+                translator.translate(word).addOnSuccessListener { translatedText ->
+                    continuation.resume(translatedText) {}
+                }.addOnFailureListener { continuation.cancel(it) }
+            }.addOnFailureListener { continuation.cancel(it) }
+        }
     }
 
     private fun List<String>.divideByCategory(original: GrammarData): Triple<List<String>, List<String>, List<String>> {
@@ -141,8 +169,3 @@ class GrammarTipsViewModel @Inject constructor(@ApplicationContext private val c
 }
 
 
-data class GrammarData(
-    val nouns: List<String> = emptyList(),
-    val verbs: List<String> = emptyList(),
-    val adjectives: List<String> = emptyList()
-)

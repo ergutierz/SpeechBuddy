@@ -22,7 +22,7 @@ import com.ignotusvia.speechbuddy.viewmodel.DashboardViewModel
 @Composable
 fun DashboardScreen() {
     val viewModel: DashboardViewModel = hiltViewModel()
-    var progress by remember { mutableStateOf(50) }
+    var progress by remember { mutableStateOf(75) }
     val context = LocalContext.current
     BackHandler {
         (context as? Activity)?.finish()
@@ -40,7 +40,7 @@ fun DashboardScreen() {
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = "Overall Progress: $progress%",
+            text = "Overall Progress: 75%",
             style = MaterialTheme.typography.subtitle1,
             modifier = Modifier.align(Alignment.End)
         )

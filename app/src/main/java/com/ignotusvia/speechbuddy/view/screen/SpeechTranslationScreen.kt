@@ -207,7 +207,6 @@ fun LanguageDropdown(
     val expandedState = remember { mutableStateOf(false) }
 
     Column {
-        // Display selected language or placeholder text
         val displayText = selectedLanguage?.displayName ?: "Select Language"
 
         Text(
@@ -239,7 +238,6 @@ fun LanguageDropdown(
             languages.forEach { language ->
                 DropdownMenuItem(
                     onClick = {
-                        // Call the callback function with the selected language
                         onLanguageSelected(language)
                         expandedState.value = false
                     }
