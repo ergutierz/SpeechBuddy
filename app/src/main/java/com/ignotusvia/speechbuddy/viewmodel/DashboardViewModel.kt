@@ -1,11 +1,13 @@
 package com.ignotusvia.speechbuddy.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.ignotusvia.speechbuddy.R
 import com.ignotusvia.speechbuddy.core.AlphabetManager
 import com.ignotusvia.speechbuddy.core.navigation.NavigationCommandManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -30,7 +32,19 @@ class DashboardViewModel @Inject constructor(
         commandManager.navigate(NavigationCommandManager.fullScreenLearningDirection)
     }
 
-    fun navigateToDashboard() {
-        commandManager.navigate(NavigationCommandManager.dashboardDirection)
-    }
+    val colorResources = arrayOf(
+        R.color.red_400,
+        R.color.yellow_300,
+        R.color.yellow_800,
+        R.color.green_300,
+        R.color.cyan_100,
+        R.color.cyan_300,
+        R.color.blue_200,
+        R.color.blue_600,
+        R.color.gray_500,
+        R.color.gray_04,
+        R.color.orange_500,
+        R.color.transparent
+    )
+
 }

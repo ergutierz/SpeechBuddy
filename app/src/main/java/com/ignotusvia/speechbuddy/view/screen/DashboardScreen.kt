@@ -5,15 +5,15 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ignotusvia.speechbuddy.model.Language
@@ -24,6 +24,7 @@ fun DashboardScreen() {
     val viewModel: DashboardViewModel = hiltViewModel()
     var progress by remember { mutableStateOf(75) }
     val context = LocalContext.current
+
     BackHandler {
         (context as? Activity)?.finish()
     }
@@ -71,10 +72,12 @@ fun DashboardScreen() {
             style = MaterialTheme.typography.h6
         )
         LazyRow(contentPadding = PaddingValues(8.dp)) {
-            items(modules) { module ->
-                LearningModule(moduleName = module.displayName){
+            itemsIndexed(modules) { index, module ->
+                val color = viewModel.colorResources[index]
+                val colorInt = colorResource(id = color)
+                LearningModule(moduleName = module.displayName, onClick = {
                     viewModel.navigateToFullScreenLearning(module.languageCode)
-                }
+                }, color = colorInt)
             }
         }
     }
@@ -96,23 +99,24 @@ val modules = listOf(
 )
 
 @Composable
-fun LearningModule(moduleName: String, onClick: () -> Unit) {
-    Card(
+fun LearningModule(moduleName: String, onClick: () -> Unit, color: Color) {
+    Surface(
         modifier = Modifier
-            .padding(vertical = 4.dp)
-            .clickable { onClick() },
-        elevation = 4.dp
+            .padding(horizontal = 4.dp, vertical = 8.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(50),
+        elevation = 4.dp,
+        color = color
     ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = moduleName, style = MaterialTheme.typography.subtitle1)
-
-            }
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = moduleName,
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.onSurface
+            )
         }
     }
 }

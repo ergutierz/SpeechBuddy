@@ -1,5 +1,6 @@
 package com.ignotusvia.speechbuddy.view.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -27,13 +28,12 @@ fun FullScreenLearning() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AlphabetGrid(alphabet = alphabet)
+        AlphabetGrid(alphabet, viewModel::speakText)
     }
 }
 
-
 @Composable
-fun AlphabetGrid(alphabet: List<String>) {
+fun AlphabetGrid(alphabet: List<String>, speak: (String) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         contentPadding = PaddingValues(16.dp),
@@ -42,7 +42,11 @@ fun AlphabetGrid(alphabet: List<String>) {
                 Text(
                     text = letter,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable {
+                            speak(letter)
+                        }
                 )
             }
         }
