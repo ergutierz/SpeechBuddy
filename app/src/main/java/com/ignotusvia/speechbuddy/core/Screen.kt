@@ -4,6 +4,7 @@ sealed class Screen(val route: String) {
     data object SpeechTranslationScreen : Screen("speech_translation_screen")
     data object ConversationScreen : Screen("conversation_screen")
     data object LearningPathScreen : Screen("learning_path_screen")
+    data object FullScreenLearningScreen : Screen("full_screen_learning_screen")
     data object VocabularyExercisesScreen : Screen("vocabulary_exercises_screen")
     data object GrammarTipsScreen : Screen("grammar_tips_screen")
     data object ImmersionFeaturesScreen : Screen("immersion_features_screen")
@@ -32,6 +33,7 @@ sealed class Screen(val route: String) {
                 RegisterScreen.route -> "Register"
                 LoginScreen.route -> "Login"
                 ForgotPasswordScreen.route -> "Forgot Password"
+                FullScreenLearningScreen.route -> "Learning Basics"
                 else -> "Speech Buddy"
             }
         }

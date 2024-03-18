@@ -1,0 +1,56 @@
+{
+  "es": {
+    "greetings": [
+      { "word": "Hola", "translation": "Hello" },
+      { "word": "Adiós", "translation": "Goodbye" },
+      { "word": "Buenos días", "translation": "Good morning" },
+      { "word": "Buenas tardes", "translation": "Good afternoon" },
+      { "word": "Buenas noches", "translation": "Good evening" },
+      { "word": "¿Cómo estás?", "translation": "How are you?" },
+      { "word": "Mucho gusto", "translation": "Nice to meet you" }
+    ],
+    "animals": [
+      { "word": "Perro", "translation": "Dog" },
+      { "word": "Gato", "translation": "Cat" },
+      { "word": "Pájaro", "translation": "Bird" },
+      { "word": "Pez", "translation": "Fish" },
+      { "word": "Caballo", "translation": "Horse" },
+      { "word": "Vaca", "translation": "Cow" },
+      { "word": "Cerdo", "translation": "Pig" },
+      { "word": "Ratón", "translation": "Mouse" }
+    ],
+    "food": [
+      { "word": "Manzana", "translation": "Apple" },
+      { "word": "Plátano", "translation": "Banana" },
+      { "word": "Pan", "translation": "Bread" },
+      { "word": "Agua", "translation": "Water" },
+      { "word": "Café", "translation": "Coffee" },
+      { "word": "Té", "translation": "Tea" },
+      { "word": "Desayuno", "translation": "Breakfast" },
+      { "word": "Almuerzo", "translation": "Lunch" },
+      { "word": "Cena", "translation": "Dinner" }
+    ],
+    "numbers": [
+      { "word": "Uno", "translation": "One" },
+      { "word": "Dos", "translation": "Two" },
+      { "word": "Tres", "translation": "Three" },
+      { "word": "Cuatro", "translation": "Four" },
+      { "word": "Cinco", "translation": "Five" },
+      { "word": "Seis", "translation": "Six" },
+      { "word": "Siete", "translation": "Seven" },
+      { "word": "Ocho", "translation": "Eight" },
+      { "word": "Nueve", "translation": "Nine" },
+      { "word": "Diez", "translation": "Ten" }
+    ],
+    "colors": [
+      { "word": "Rojo", "translation": "Red" },
+      { "word": "Azul", "translation": "Blue" },
+      { "word": "Verde", "translation": "Green" },
+      { "word": "Amarillo", "translation": "Yellow" },
+      { "word": "Naranja", "translation": "Orange" },
+      { "word": "Morado", "translation": "Purple" },
+      { "word": "Negro", "translation": "Black" },
+      { "word": "Blanco", "translation": "White" }
+    ]
+  }
+}

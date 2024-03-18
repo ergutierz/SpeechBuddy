@@ -72,9 +72,6 @@ fun LearningModuleItem(moduleName: String, isExpanded: Boolean, onClick: () -> U
                     )
                 }
             }
-            if (isExpanded) {
-                Text("Video player will be here", Modifier.padding(16.dp))
-            }
         }
     }
 }
@@ -141,8 +138,8 @@ fun createHtmlContent(videoId: String): String {
 }
 
 val learningModules = listOf(
-    "Module 1" to "VeH03PzD25E",
-    "Module 2" to "ujDtm0hZyII",
-    "Module 3" to "xg60VxyK-9I"
+    "Module 1: Italian" to "VeH03PzD25E",
+    "Module 2: French" to "ujDtm0hZyII",
+    "Module 3: German" to "xg60VxyK-9I"
 )
 

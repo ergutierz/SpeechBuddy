@@ -1,0 +1,56 @@
+{
+  "de": {
+    "greetings": [
+      { "word": "Hallo", "translation": "Hello" },
+      { "word": "Auf Wiedersehen", "translation": "Goodbye" },
+      { "word": "Guten Morgen", "translation": "Good morning" },
+      { "word": "Guten Tag", "translation": "Good afternoon" },
+      { "word": "Guten Abend", "translation": "Good evening" },
+      { "word": "Wie geht es Ihnen?", "translation": "How are you?" },
+      { "word": "Schön Sie kennenzulernen", "translation": "Nice to meet you" }
+    ],
+    "animals": [
+      { "word": "Hund", "translation": "Dog" },
+      { "word": "Katze", "translation": "Cat" },
+      { "word": "Vogel", "translation": "Bird" },
+      { "word": "Fisch", "translation": "Fish" },
+      { "word": "Pferd", "translation": "Horse" },
+      { "word": "Kuh", "translation": "Cow" },
+      { "word": "Schwein", "translation": "Pig" },
+      { "word": "Maus", "translation": "Mouse" }
+    ],
+    "food": [
+      { "word": "Apfel", "translation": "Apple" },
+      { "word": "Banane", "translation": "Banana" },
+      { "word": "Brot", "translation": "Bread" },
+      { "word": "Wasser", "translation": "Water" },
+      { "word": "Kaffee", "translation": "Coffee" },
+      { "word": "Tee", "translation": "Tea" },
+      { "word": "Frühstück", "translation": "Breakfast" },
+      { "word": "Mittagessen", "translation": "Lunch" },
+      { "word": "Abendessen", "translation": "Dinner" }
+    ],
+    "numbers": [
+      { "word": "Eins", "translation": "One" },
+      { "word": "Zwei", "translation": "Two" },
+      { "word": "Drei", "translation": "Three" },
+      { "word": "Vier", "translation": "Four" },
+      { "word": "Fünf", "translation": "Five" },
+      { "word": "Sechs", "translation": "Six" },
+      { "word": "Sieben", "translation": "Seven" },
+      { "word": "Acht", "translation": "Eight" },
+      { "word": "Neun", "translation": "Nine" },
+      { "word": "Zehn", "translation": "Ten" }
+    ],
+    "colors": [
+      { "word": "Rot", "translation": "Red" },
+      { "word": "Blau", "translation": "Blue" },
+      { "word": "Grün", "translation": "Green" },
+      { "word": "Gelb", "translation": "Yellow" },
+      { "word": "Orange", "translation": "Orange" },
+      { "word": "Lila", "translation": "Purple" },
+      { "word": "Schwarz", "translation": "Black" },
+      { "word": "Weiß", "translation": "White" }
+    ]
+  }
+}

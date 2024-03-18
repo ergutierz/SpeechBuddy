@@ -11,6 +11,7 @@ import com.ignotusvia.speechbuddy.view.screen.CommunityScreen
 import com.ignotusvia.speechbuddy.view.screen.ConversationScreen
 import com.ignotusvia.speechbuddy.view.screen.DashboardScreen
 import com.ignotusvia.speechbuddy.view.screen.ForgotPasswordScreen
+import com.ignotusvia.speechbuddy.view.screen.FullScreenLearning
 import com.ignotusvia.speechbuddy.view.screen.GrammarTipsScreen
 import com.ignotusvia.speechbuddy.view.screen.ImmersionFeaturesScreen
 import com.ignotusvia.speechbuddy.view.screen.LearningPathScreen
@@ -34,6 +35,7 @@ fun ApplicationNavigationComponent(
         composable(Screen.LoginScreen.route) { LoginScreen() }
         composable(Screen.ForgotPasswordScreen.route) { ForgotPasswordScreen() }
         composable(Screen.RegisterScreen.route) { RegisterScreen() }
+        composable(Screen.FullScreenLearningScreen.route) { FullScreenLearning() }
         composable(Screen.DashboardScreen.route) { DashboardScreen() }
         composable(Screen.SpeechTranslationScreen.route) { SpeechTranslationScreen() }
         composable(Screen.ConversationScreen.route) { ConversationScreen() }

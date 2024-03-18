@@ -5,13 +5,18 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ignotusvia.speechbuddy.model.Language
 import com.ignotusvia.speechbuddy.viewmodel.DashboardViewModel
 
 @Composable
@@ -22,13 +27,14 @@ fun DashboardScreen() {
     BackHandler {
         (context as? Activity)?.finish()
     }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Progress Overview
         LinearProgressIndicator(
             progress = progress / 100f,
             modifier = Modifier.fillMaxWidth()
@@ -40,31 +46,72 @@ fun DashboardScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Quick Access to Main Features
         LazyRow {
             item {
                 QuickAccessItem(
-                    "Speech Recognition",
-                    onClick = { /* Navigate to Speech Recognition */ })
+                    "Speech Translation",
+                    onClick = {
+                        viewModel.navigateToSpeechRecognition()
+                    })
                 QuickAccessItem(
                     "Vocabulary Exercises",
-                    onClick = { /* Navigate to Vocabulary Exercises */ })
-                QuickAccessItem("Grammar Tips", onClick = { /* Navigate to Grammar Tips */ })
-                // Add more items as needed
+                    onClick = {
+                        viewModel.navigateToVocabularyExercises()
+                    })
+                QuickAccessItem(
+                    "Grammar Tips",
+                    onClick = {
+                        viewModel.navigateToGrammarTips()
+                    })
             }
         }
 
-        // Recommended Lessons or Activities
         Text(
             text = "Recommended for You",
             style = MaterialTheme.typography.h6
         )
-        LazyRow {
-            item {
-                // Populate with dynamic content
-                RecommendedItem("Lesson 1")
-                RecommendedItem("Activity 2")
-                // Add more items based on user progress or preferences
+        LazyRow(contentPadding = PaddingValues(8.dp)) {
+            items(modules) { module ->
+                LearningModule(moduleName = module.displayName){
+                    viewModel.navigateToFullScreenLearning(module.languageCode)
+                }
+            }
+        }
+    }
+}
+
+val modules = listOf(
+    Language("English", "en"),
+    Language("Spanish", "es"),
+    Language("French", "fr"),
+    Language("German", "de"),
+    Language("Italian", "it"),
+    Language("Japanese", "ja"),
+    Language("Korean", "ko"),
+    Language("Portuguese", "pt"),
+    Language("Russian", "ru"),
+    Language("Chinese", "zh"),
+    Language("Arabic", "ar"),
+    Language("Greek", "el")
+)
+
+@Composable
+fun LearningModule(moduleName: String, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(vertical = 4.dp)
+            .clickable { onClick() },
+        elevation = 4.dp
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = moduleName, style = MaterialTheme.typography.subtitle1)
+
             }
         }
     }
